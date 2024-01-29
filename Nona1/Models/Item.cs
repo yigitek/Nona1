@@ -10,5 +10,7 @@
         public string ImageUrl { get; set; }
         public int ArtistId { get; set; }
         public Artist Artist { get; set; }
+        public int CollabId { get; set; }
+        public Collab Collab { get; set; }
     }
 }
