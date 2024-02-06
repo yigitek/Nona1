@@ -1,6 +1,9 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Nona1.Data;
+using Nona1.Mappings;
+using Nona1.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<NonaDbContext>(options=>
 options.UseSqlServer(builder.Configuration.GetConnectionString("NonaConnectionString")));
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
+builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

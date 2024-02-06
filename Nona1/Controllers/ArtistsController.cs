@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Nona1.Data;
+using Nona1.DTOs;
 using Nona1.Models;
+using Nona1.Repositories;
 
 namespace Nona1.Controllers
 {
@@ -8,34 +12,49 @@ namespace Nona1.Controllers
     [ApiController]
     public class ArtistsController : ControllerBase
     {
+        private readonly NonaDbContext dbContext;
+        private readonly IMapper mapper;
+        private readonly IArtistRepository artistRepository;
+
+        public ArtistsController(NonaDbContext dbContext, IMapper mapper, IArtistRepository artistRepository)
+        {
+            this.dbContext = dbContext;
+            this.mapper = mapper;
+            this.artistRepository = artistRepository;
+        }
+
         [HttpGet]
         public IActionResult GetAll()
         {
-            var artists = new List<Artist>
+            var artists = artistRepository.GetAllAsync();
+
+            return Ok(mapper.Map<List<ArtistDTO>>(artists));
+        }
+
+        [HttpGet]
+        [Route("{id:Guid}")]
+        public IActionResult GetById([FromRoute] Guid id)
+        {
+            var artist = artistRepository.GetByIdAsync(id);
+
+            if (artist == null)
             {
-                new Artist
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Test Testesterone",
-                    Description="Test guy",
-                    ImageUrl="null",
-                },
-                new Artist
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Test Testa",
-                    Description="Test guy",
-                    ImageUrl="null",
-                },
-                new Artist
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Testo Testarr",
-                    Description="Test guy",
-                    ImageUrl="null",
-                }
-            };
-            return Ok(artists);
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<ArtistDTO>(artist)); 
+        }
+
+        [HttpPost]
+        public IActionResult Create([FromBody] AddArtistRequestDTO addArtistRequestDTO)
+        {
+            var artist = mapper.Map<Artist>(addArtistRequestDTO);
+
+            artistRepository.CreateAsync(artist);
+
+            var artistDto = mapper.Map<ArtistDTO>(artist);
+
+            return CreatedAtAction(nameof(GetById), new {id = artistDto.Id}, artistDto);
         }
     }
 }
