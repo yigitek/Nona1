@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Nona1.Data;
 using Nona1.Models;
 
@@ -31,6 +32,22 @@ namespace Nona1.Repositories
             return artist;
         }
 
-        
+        public async Task<Artist> UpdateAsync(Guid id, Artist artist)
+        {
+            var existingArtist = await dbContext.Artists.FirstOrDefaultAsync(x => x.Id == id);
+            if (existingArtist == null)
+            {
+                return null;
+            }
+
+            existingArtist.Name = artist.Name;
+            existingArtist.Description = artist.Description;
+            existingArtist.ImageUrl = artist.ImageUrl;
+            //existingArtist.Items = artist.Items;
+            //existingArtist.Collabs = artist.Collabs;
+
+            await dbContext.SaveChangesAsync();
+            return existingArtist;
+        }
     }
 }

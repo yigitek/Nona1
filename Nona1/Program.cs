@@ -16,6 +16,7 @@ builder.Services.AddDbContext<NonaDbContext>(options=>
 options.UseSqlServer(builder.Configuration.GetConnectionString("NonaConnectionString")));
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
+builder.Services.AddScoped<ICollabRepository, CollabRepository>();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
