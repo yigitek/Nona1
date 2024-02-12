@@ -13,6 +13,5 @@ namespace Nona1.Mappings
             CreateMap<Collab, CollabDTO>().ReverseMap();
             CreateMap<Collab, AddCollabRequestDTO>().ReverseMap();
         }
-        
     }
 }

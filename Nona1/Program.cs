@@ -12,12 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 builder.Services.AddDbContext<NonaDbContext>(options=>
 options.UseSqlServer(builder.Configuration.GetConnectionString("NonaConnectionString")));
-builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
 builder.Services.AddScoped<ICollabRepository, CollabRepository>();
-
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {

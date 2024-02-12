@@ -12,8 +12,8 @@ using Nona1.Data;
 namespace Nona1.Migrations
 {
     [DbContext(typeof(NonaDbContext))]
-    [Migration("20240206101641_Make share props nullable")]
-    partial class Makesharepropsnullable
+    [Migration("20240211155008_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,36 +23,6 @@ namespace Nona1.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("ArtistCollab", b =>
-                {
-                    b.Property<Guid>("ArtistsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CollabsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ArtistsId", "CollabsId");
-
-                    b.HasIndex("CollabsId");
-
-                    b.ToTable("ArtistCollab");
-                });
-
-            modelBuilder.Entity("ArtistItem", b =>
-                {
-                    b.Property<Guid>("ArtistsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ItemsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ArtistsId", "ItemsId");
-
-                    b.HasIndex("ItemsId");
-
-                    b.ToTable("ArtistItem");
-                });
 
             modelBuilder.Entity("Nona1.Models.Artist", b =>
                 {
@@ -110,12 +80,6 @@ namespace Nona1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CollabId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("CollabId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -133,53 +97,7 @@ namespace Nona1.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CollabId1");
-
                     b.ToTable("Items");
-                });
-
-            modelBuilder.Entity("ArtistCollab", b =>
-                {
-                    b.HasOne("Nona1.Models.Artist", null)
-                        .WithMany()
-                        .HasForeignKey("ArtistsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Nona1.Models.Collab", null)
-                        .WithMany()
-                        .HasForeignKey("CollabsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ArtistItem", b =>
-                {
-                    b.HasOne("Nona1.Models.Artist", null)
-                        .WithMany()
-                        .HasForeignKey("ArtistsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Nona1.Models.Item", null)
-                        .WithMany()
-                        .HasForeignKey("ItemsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Nona1.Models.Item", b =>
-                {
-                    b.HasOne("Nona1.Models.Collab", "Collab")
-                        .WithMany("Items")
-                        .HasForeignKey("CollabId1");
-
-                    b.Navigation("Collab");
-                });
-
-            modelBuilder.Entity("Nona1.Models.Collab", b =>
-                {
-                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

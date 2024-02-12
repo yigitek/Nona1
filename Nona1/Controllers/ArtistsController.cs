@@ -25,18 +25,19 @@ namespace Nona1.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var artists = artistRepository.GetAllAsync();
+            var artists = await artistRepository.GetAllAsync();
 
+            //return Ok(mapper.Map<List<ArtistDTO>>(artists));
             return Ok(mapper.Map<List<ArtistDTO>>(artists));
         }
 
         [HttpGet]
         [Route("{id:Guid}")]
-        public IActionResult GetById([FromRoute] Guid id)
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var artist = artistRepository.GetByIdAsync(id);
+            var artist = await artistRepository.GetByIdAsync(id);
 
             if (artist == null)
             {
@@ -47,11 +48,11 @@ namespace Nona1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] AddArtistRequestDTO addArtistRequestDTO)
+        public async Task<IActionResult> Create([FromBody] AddArtistRequestDTO addArtistRequestDTO)
         {
             var artist = mapper.Map<Artist>(addArtistRequestDTO);
 
-            artistRepository.CreateAsync(artist);
+            await artistRepository.CreateAsync(artist);
 
             var artistDto = mapper.Map<ArtistDTO>(artist);
 

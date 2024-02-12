@@ -25,18 +25,18 @@ namespace Nona1.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var collabs = collabRepository.GetAllAsync();
+            var collabs = await collabRepository.GetAllAsync();
 
             return Ok(mapper.Map<List<CollabDTO>>(collabs));
         }
 
         [HttpGet]
         [Route("{id:Guid}")]
-        public IActionResult GetById([FromRoute] Guid id)
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var collab = collabRepository.GetByIdAsync(id);
+            var collab = await collabRepository.GetByIdAsync(id);
 
             if (collab == null)
             {
@@ -47,11 +47,11 @@ namespace Nona1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] AddCollabRequestDTO addCollabDto)
+        public async Task<IActionResult> Create([FromBody] AddCollabRequestDTO addCollabDto)
         {
             var collab = mapper.Map<Collab>(addCollabDto);
 
-            collabRepository.CreateAsync(collab);
+            await collabRepository.CreateAsync(collab);
 
             var collabDTO = mapper.Map<CollabDTO>(collab);
 

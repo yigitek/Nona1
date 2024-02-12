@@ -8,8 +8,8 @@
         public decimal Price { get; set; }
         public string Category { get; set; }
         public string ImageUrl { get; set; }
-        public List<Artist>? Artists { get; set; } = new List<Artist>();
-        public int? CollabId { get; set; }
-        public Collab? Collab { get; set; }
+        //public List<Artist>? Artists { get; set; } = new List<Artist>();
+        //public int? CollabId { get; set; }
+        //public Collab? Collab { get; set; }
     }
 }
