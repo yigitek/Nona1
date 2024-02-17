@@ -12,6 +12,8 @@ namespace Nona1.Mappings
             CreateMap<Artist, AddArtistRequestDTO>().ReverseMap();
             CreateMap<Collab, CollabDTO>().ReverseMap();
             CreateMap<Collab, AddCollabRequestDTO>().ReverseMap();
+            CreateMap<Item, ItemDTO>().ReverseMap();
+            CreateMap<Item, AddItemRequestDTO>().ReverseMap();
         }
     }
 }

@@ -48,7 +48,8 @@ namespace Nona1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] AddArtistRequestDTO addArtistRequestDTO)
+        public async Task<IActionResult> Create([FromBody] AddArtistRequestDTO
+            addArtistRequestDTO)
         {
             var artist = mapper.Map<Artist>(addArtistRequestDTO);
 
